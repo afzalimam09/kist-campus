@@ -15,11 +15,11 @@ const Notices = () => {
             try {
                 setLoading(true);
                 const res = await axios.get(
-                    `https://newsapi.org/v2/top-headlines?country=us&apiKey=f8a7fd605fa34becbd6230ac201a161a&pageSize=${pageSize}&page=${currentPage}`
+                    `https://kist-campus.up.railway.app/api/v1/notice?page=${currentPage}&limit=${pageSize}`
                 );
                 setLoading(false);
-                setNotices([...notices, ...res.data.articles]);
-                setTotalPage(Math.ceil(res.data.totalResults / pageSize));
+                setNotices([...notices, ...res.data.doc]);
+                setTotalPage(Math.ceil(res.data.length / pageSize));
             } catch (error) {
                 console.log(error);
             }
@@ -42,7 +42,7 @@ const Notices = () => {
 
                 <ul className="grid-list">
                     {notices.map((notice) => (
-                        <Notice notice={notice} key={notice.title} />
+                        <Notice notice={notice} key={notice._id} />
                     ))}
                 </ul>
 

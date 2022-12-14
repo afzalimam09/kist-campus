@@ -6,7 +6,7 @@ const Notice = ({ notice }) => {
             <div className="notice-card">
                 <figure className="card-banner">
                     <img
-                        src={notice.urlToImage}
+                        src={notice.imageUrl}
                         width="370"
                         height="270"
                         loading="lazy"
@@ -19,7 +19,7 @@ const Notice = ({ notice }) => {
                     <div className="date-badge">
                         <ion-icon name="time-outline"></ion-icon>
                         <span className="date">
-                            {dateFormat(notice.publishedAt, "mmm d, yyyy")}
+                            {dateFormat(notice.createdAt, "mmm d, yyyy")}
                         </span>
                     </div>
 
@@ -30,7 +30,7 @@ const Notice = ({ notice }) => {
 
                 <div className="card-content">
                     <h3 className="h3">
-                        <a href={notice.url} className="card-title">
+                        <a href={notice.imageUrl} className="card-title">
                             {notice.title}
                         </a>
                     </h3>
