@@ -1,7 +1,13 @@
 import { useState } from "react";
 import "./header.css";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../../redux/userRedux";
 
 const Header = () => {
+    const user = useSelector((state) => state.user.currentUser);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     // To controll navigation menu
     const [active, setActive] = useState(false);
     const toggleElm = () => setActive(!active);
@@ -16,20 +22,25 @@ const Header = () => {
         }
     });
 
+    const handleLogout = () => {
+        dispatch(logout());
+        navigate("/login");
+    };
+
     return (
         <header className={`header ${scroll ? "active header-anim" : ""}`}>
             <div className="container">
                 <h1>
-                    <a href="/" className="logo">
+                    <Link to="/" className="logo">
                         KIST Campus
-                    </a>
+                    </Link>
                 </h1>
 
                 <nav className={`navbar ${active ? "active" : ""}`}>
                     <div className="navbar-top">
-                        <a href="/" className="logo">
+                        <Link to="/" className="logo">
                             KIST Campus
-                        </a>
+                        </Link>
                         <button
                             onClick={toggleElm}
                             className="nav-close-btn"
@@ -41,66 +52,70 @@ const Header = () => {
 
                     <ul className="navbar-list">
                         <li className="navbar-item">
-                            <a
-                                href="#home"
+                            <Link
+                                to="/"
                                 onClick={toggleElm}
                                 className="navbar-link"
                             >
                                 Home
-                            </a>
+                            </Link>
                         </li>
 
                         <li className="navbar-item">
-                            <a
-                                href="#about"
+                            <Link
+                                to="/about"
                                 onClick={toggleElm}
                                 className="navbar-link"
                             >
                                 About
-                            </a>
+                            </Link>
                         </li>
 
                         <li className="navbar-item">
-                            <a
-                                href="#courses"
+                            <Link
+                                to="/notices"
                                 onClick={toggleElm}
                                 className="navbar-link"
                             >
                                 Notices
-                            </a>
+                            </Link>
                         </li>
 
                         <li className="navbar-item">
-                            <a
-                                href="#blog"
-                                onClick={toggleElm}
-                                className="navbar-link"
-                            >
-                                Blog
-                            </a>
-                        </li>
-
-                        <li className="navbar-item">
-                            <a
-                                href="#contact"
+                            <Link
+                                to="/contact"
                                 onClick={toggleElm}
                                 className="navbar-link"
                             >
                                 Contact
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </nav>
 
                 <div className="header-actions">
-                    <a href="/login" className="header-action-btn login-btn">
-                        <ion-icon
-                            name="person-outline"
-                            aria-hidden="true"
-                        ></ion-icon>
+                    {!user ? (
+                        <Link
+                            to="/login"
+                            className="header-action-btn login-btn"
+                        >
+                            <ion-icon
+                                name="person-outline"
+                                aria-hidden="true"
+                            ></ion-icon>
 
-                        <span className="span">Login / Register</span>
-                    </a>
+                            <span className="span">Login / Register</span>
+                        </Link>
+                    ) : (
+                        <button
+                            onClick={handleLogout}
+                            className="header-action-btn login-btn"
+                        >
+                            <ion-icon name="log-out-outline"></ion-icon>
+
+                            <span className="span">Logout</span>
+                        </button>
+                    )}
 
                     <button
                         onClick={toggleElm}

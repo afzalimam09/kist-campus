@@ -17,7 +17,7 @@ const Notice = ({ notice }) => {
 
                 <div className="card-actions">
                     <div className="date-badge">
-                        <ion-icon name="time-outline"></ion-icon>
+                        <ion-icon name="calendar-outline"></ion-icon>
                         <span className="date">
                             {dateFormat(notice.createdAt, "mmm d, yyyy")}
                         </span>

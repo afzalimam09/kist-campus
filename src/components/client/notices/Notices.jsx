@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./notices.css";
-import axios from "axios";
 import Notice from "../notice/Notice";
+import { publicRequest } from "../../../requestMethods";
 
 const Notices = () => {
     const pageSize = 3;
@@ -14,12 +14,12 @@ const Notices = () => {
         const getNotices = async () => {
             try {
                 setLoading(true);
-                const res = await axios.get(
-                    `https://kist-campus.up.railway.app/api/v1/notice?page=${currentPage}&limit=${pageSize}`
+                const res = await publicRequest.get(
+                    `/notice?page=${currentPage}&limit=${pageSize}`
                 );
                 setLoading(false);
-                setNotices([...notices, ...res.data.doc]);
-                setTotalPage(Math.ceil(res.data.length / pageSize));
+                setNotices([...notices, ...res.data.data]);
+                setTotalPage(Math.ceil(res.data.totalResults / pageSize));
             } catch (error) {
                 console.log(error);
             }

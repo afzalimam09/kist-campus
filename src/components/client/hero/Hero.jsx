@@ -1,4 +1,5 @@
 import "./hero.css";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
     return (
@@ -21,11 +22,11 @@ const Hero = () => {
                         Get all the notices directly on your email!
                     </p>
 
-                    <a href="/login" className="btn btn-primary">
+                    <Link to="/register" className="btn btn-primary">
                         <span className="span">Get Started Today</span>
 
                         <ion-icon name="arrow-forward-outline"></ion-icon>
-                    </a>
+                    </Link>
                 </div>
 
                 <figure className="hero-banner">

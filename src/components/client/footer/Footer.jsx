@@ -1,4 +1,5 @@
 import "./footer.css";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
     return (
@@ -6,9 +7,9 @@ const Footer = () => {
             <div className="container">
                 <div className="footer-top">
                     <div className="footer-brand">
-                        <a href="/" className="logo">
+                        <Link to="/" className="logo">
                             KIST Campus
-                        </a>
+                        </Link>
 
                         <p className="section-text">
                             It is a long established fact that a reader will be
@@ -43,47 +44,36 @@ const Footer = () => {
                         </li>
 
                         <li>
-                            <a href="/" className="footer-link">
+                            <Link to="/about" className="footer-link">
                                 <ion-icon
                                     name="chevron-forward"
                                     aria-hidden="true"
                                 ></ion-icon>
 
                                 <span className="span">About Us</span>
-                            </a>
+                            </Link>
                         </li>
 
                         <li>
-                            <a href="/" className="footer-link">
-                                <ion-icon
-                                    name="chevron-forward"
-                                    aria-hidden="true"
-                                ></ion-icon>
-
-                                <span className="span">Recent News</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/" className="footer-link">
+                            <Link to="/faq" className="footer-link">
                                 <ion-icon
                                     name="chevron-forward"
                                     aria-hidden="true"
                                 ></ion-icon>
 
                                 <span className="span">FAQ</span>
-                            </a>
+                            </Link>
                         </li>
 
                         <li>
-                            <a href="/" className="footer-link">
+                            <Link to="/privacy-policy" className="footer-link">
                                 <ion-icon
                                     name="chevron-forward"
                                     aria-hidden="true"
                                 ></ion-icon>
 
                                 <span className="span">Privacy Policy</span>
-                            </a>
+                            </Link>
                         </li>
                     </ul>
 
@@ -93,47 +83,36 @@ const Footer = () => {
                         </li>
 
                         <li>
-                            <a href="/" className="footer-link">
+                            <Link to="/contact" className="footer-link">
                                 <ion-icon
                                     name="chevron-forward"
                                     aria-hidden="true"
                                 ></ion-icon>
 
                                 <span className="span">Contact Us</span>
-                            </a>
+                            </Link>
                         </li>
 
                         <li>
-                            <a href="/" className="footer-link">
+                            <Link href="/admin" className="footer-link">
                                 <ion-icon
                                     name="chevron-forward"
                                     aria-hidden="true"
                                 ></ion-icon>
 
                                 <span className="span">Admin Profile</span>
-                            </a>
+                            </Link>
                         </li>
 
                         <li>
-                            <a href="/" className="footer-link">
+                            <Link to="/" className="footer-link">
                                 <ion-icon
                                     name="chevron-forward"
                                     aria-hidden="true"
                                 ></ion-icon>
 
                                 <span className="span">Recent Notices</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="/" className="footer-link">
-                                <ion-icon
-                                    name="chevron-forward"
-                                    aria-hidden="true"
-                                ></ion-icon>
-
-                                <span className="span">Terms & Conditions</span>
-                            </a>
+                            </Link>
                         </li>
                     </ul>
 
@@ -149,7 +128,7 @@ const Footer = () => {
                             ></ion-icon>
 
                             <address className="footer-link">
-                                Techno Park, Jatani, Bhubaneshwar, Odisha -
+                                KIST College, Jatani, Bhubaneshwar, Odisha -
                                 752050
                             </address>
                         </li>
@@ -181,9 +160,9 @@ const Footer = () => {
                 <div className="footer-bottom">
                     <p className="copyright">
                         Copyright 2022 KIST Campus. All Rights Reserved by{" "}
-                        <a href="/" className="copyright-link">
+                        <Link to="/" className="copyright-link">
                             KIST Campus
-                        </a>
+                        </Link>
                     </p>
                 </div>
             </div>

@@ -1,11 +1,49 @@
 import React, { useState } from "react";
-import Header from "../../../components/header/Header";
-import Footer from "../../../components/footer/Footer";
-import BackToTop from "../../../components/backtotop/BackToTop";
+import Footer from "../../../components/client/footer/Footer";
+import Header from "../../../components/client/header/Header";
+import BackToTop from "../../../components/shared/backtotop/BackToTop";
 import "./register.css";
+import { Link, useNavigate } from "react-router-dom";
+import { publicRequest } from "../../../requestMethods";
+import { Notyf } from "notyf";
+import "notyf/notyf.min.css";
+
+const notyf = new Notyf({
+    duration: 2000,
+    position: {
+        x: "right",
+        y: "top",
+    },
+});
 
 const Register = () => {
+    const [inputs, setInputs] = useState({});
     const [visible, setVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+
+    const handleChange = (e) => {
+        setInputs((prev) => {
+            return { ...prev, [e.target.name]: e.target.value };
+        });
+    };
+
+    const handleClick = async (e) => {
+        e.preventDefault();
+        if (!inputs) {
+            notyf.error("Please fill the form!");
+            return;
+        }
+        setLoading(true);
+        try {
+            await publicRequest.post("/auth/signup", inputs);
+            notyf.success("Registration Successfull!");
+            navigate("/login");
+        } catch (error) {
+            notyf.error("Something went wrong!");
+        }
+        setLoading(false);
+    };
 
     return (
         <>
@@ -30,14 +68,16 @@ const Register = () => {
                                     <div className="input-wrapper">
                                         <ion-icon name="person-circle-outline"></ion-icon>
                                         <input
+                                            onChange={handleChange}
                                             type="text"
-                                            name="full_name"
+                                            name="name"
                                             placeholder="Enter your full name"
                                             required
                                             className="input-field"
                                         />
                                     </div>
                                 </div>
+
                                 <div>
                                     <label>
                                         Email <span>*</span>
@@ -45,8 +85,9 @@ const Register = () => {
                                     <div className="input-wrapper">
                                         <ion-icon name="mail-outline"></ion-icon>
                                         <input
+                                            onChange={handleChange}
                                             type="email"
-                                            name="email_address"
+                                            name="email"
                                             aria-label="email"
                                             placeholder="Enter your mail address"
                                             required
@@ -54,6 +95,7 @@ const Register = () => {
                                         />
                                     </div>
                                 </div>
+
                                 <div>
                                     <label>
                                         Reg No. <span>*</span>
@@ -61,15 +103,16 @@ const Register = () => {
                                     <div className="input-wrapper">
                                         <ion-icon name="checkmark-circle-outline"></ion-icon>
                                         <input
+                                            onChange={handleChange}
                                             type="number"
-                                            name="reg_no"
-                                            aria-label="email"
+                                            name="regNo"
                                             placeholder="Enter your reg no."
                                             required
                                             className="input-field"
                                         />
                                     </div>
                                 </div>
+
                                 <div>
                                     <label>
                                         Mobile No. <span>*</span>
@@ -77,8 +120,9 @@ const Register = () => {
                                     <div className="input-wrapper">
                                         <ion-icon name="phone-portrait-outline"></ion-icon>
                                         <input
+                                            onChange={handleChange}
                                             type="number"
-                                            name="mobile_no"
+                                            name="mobile"
                                             aria-label="email"
                                             placeholder="Enter your mobile no."
                                             required
@@ -86,6 +130,7 @@ const Register = () => {
                                         />
                                     </div>
                                 </div>
+
                                 <div>
                                     <label>
                                         Gender <span>*</span>
@@ -93,17 +138,20 @@ const Register = () => {
                                     <div className="input-wrapper select-box">
                                         <ion-icon name="person-outline"></ion-icon>
                                         <select
+                                            onChange={handleChange}
                                             className="input-field"
                                             name="gender"
                                             id="gender"
                                         >
-                                            <option value="male">Male</option>
-                                            <option value="female">
+                                            <option>Select</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">
                                                 Female
                                             </option>
                                         </select>
                                     </div>
                                 </div>
+
                                 <div>
                                     <label>
                                         Course <span>*</span>
@@ -111,17 +159,20 @@ const Register = () => {
                                     <div className="input-wrapper select-box">
                                         <ion-icon name="book-outline"></ion-icon>
                                         <select
+                                            onChange={handleChange}
                                             className="input-field"
                                             name="course"
                                             id="course"
                                         >
-                                            <option value="btech">
+                                            <option>Select</option>
+                                            <option value="B-Tech">
                                                 B-Tech
                                             </option>
-                                            <option value="imba">IMBA</option>
+                                            <option value="IMBA">IMBA</option>
                                         </select>
                                     </div>
                                 </div>
+
                                 <div>
                                     <label>
                                         Password <span>*</span>
@@ -129,6 +180,7 @@ const Register = () => {
                                     <div className="input-wrapper">
                                         <ion-icon name="lock-open-outline"></ion-icon>
                                         <input
+                                            onChange={handleChange}
                                             type={
                                                 !visible ? "password" : "text"
                                             }
@@ -151,6 +203,7 @@ const Register = () => {
                                         </div>
                                     </div>
                                 </div>
+
                                 <div>
                                     <label>
                                         Confirm Password <span>*</span>
@@ -158,10 +211,11 @@ const Register = () => {
                                     <div className="input-wrapper">
                                         <ion-icon name="lock-open-outline"></ion-icon>
                                         <input
+                                            onChange={handleChange}
                                             type={
                                                 !visible ? "password" : "text"
                                             }
-                                            name="confirm_password"
+                                            name="passwordConfirm"
                                             placeholder="Confirm password"
                                             required
                                             className="input-field"
@@ -180,19 +234,59 @@ const Register = () => {
                                         </div>
                                     </div>
                                 </div>
+
+                                <div>
+                                    <label>
+                                        User Type <span>*</span>
+                                    </label>
+                                    <div className="input-wrapper select-box">
+                                        <ion-icon name="person-outline"></ion-icon>
+                                        <select
+                                            onChange={handleChange}
+                                            className="input-field"
+                                            name="role"
+                                            id="role"
+                                        >
+                                            <option>Select</option>
+                                            <option value="student">
+                                                Student
+                                            </option>
+                                            <option value="faculty">
+                                                Faculty
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label>
+                                        Profile Image <span>*</span>
+                                    </label>
+                                    <div
+                                        style={{ padding: "13px" }}
+                                        className="input-wrapper"
+                                    >
+                                        <input
+                                            type="file"
+                                            name="file"
+                                            required
+                                        />
+                                    </div>
+                                </div>
                             </div>
 
                             <button
+                                onClick={handleClick}
                                 type="submit"
                                 className="btn-primary login_btn"
                             >
-                                Register
+                                {!loading ? "Register" : "Submiting..."}
                             </button>
                         </form>
 
                         <div className="cta">
                             <p>Already have an account?</p>
-                            <a href="/">Login</a>
+                            <Link to="/login">Login</Link>
                         </div>
                     </div>
                 </div>

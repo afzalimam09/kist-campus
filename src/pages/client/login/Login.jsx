@@ -1,11 +1,44 @@
 import { useState } from "react";
+import Footer from "../../../components/client/footer/Footer";
+import Header from "../../../components/client/header/Header";
+import BackToTop from "../../../components/shared/backtotop/BackToTop";
 import "./login.css";
-import Header from "../../components/header/Header";
-import Footer from "../../components/footer/Footer";
-import BackToTop from "../../components/backtotop/BackToTop";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../../redux/apiCalls";
+import { Notyf } from "notyf";
+import "notyf/notyf.min.css"; // for React, Vue and Svelte
+
+const notyf = new Notyf({
+    duration: 2000,
+    position: {
+        x: "right",
+        y: "top",
+    },
+});
 
 const Login = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [visible, setVisible] = useState(false);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { isFetching } = useSelector((state) => state.user);
+
+    const handleClick = async (e) => {
+        e.preventDefault();
+        if (!email || !password) {
+            notyf.error("Please enter required fields!");
+            return;
+        }
+        const res = await login(dispatch, { email, password });
+        if (res.status === "success") {
+            notyf.success("Successfully logged in");
+            navigate("/");
+        } else if (res.status === "fail") {
+            notyf.error(res.message);
+        }
+    };
 
     return (
         <>
@@ -24,29 +57,14 @@ const Login = () => {
                         <form className="form-content">
                             <div>
                                 <label>
-                                    User Type <span>*</span>
-                                </label>
-                                <div className="input-wrapper select-box">
-                                    <ion-icon name="person-outline"></ion-icon>
-                                    <select
-                                        className="input-field"
-                                        name="type"
-                                        id="type"
-                                    >
-                                        <option value="admin">Admin</option>
-                                        <option value="faculty">Faculty</option>
-                                        <option value="student">Student</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label>
                                     Email Address <span>*</span>
                                 </label>
                                 <div className="input-wrapper">
                                     <ion-icon name="mail-outline"></ion-icon>
                                     <input
+                                        onChange={(e) =>
+                                            setEmail(e.target.value)
+                                        }
                                         type="email"
                                         name="email_address"
                                         aria-label="email"
@@ -64,6 +82,9 @@ const Login = () => {
                                 <div className="input-wrapper">
                                     <ion-icon name="lock-open-outline"></ion-icon>
                                     <input
+                                        onChange={(e) =>
+                                            setPassword(e.target.value)
+                                        }
                                         type={!visible ? "password" : "text"}
                                         name="password"
                                         placeholder="Enter your password"
@@ -86,12 +107,14 @@ const Login = () => {
                             </div>
 
                             <p className="forgot-password">
-                                <a href="/">Forgot Password?</a>
+                                <Link to="/">Forgot Password</Link>
                             </p>
 
                             <button
-                                type="submit"
-                                className="btn-primary login_btn"
+                                onClick={handleClick}
+                                className={`btn-primary login_btn ${
+                                    isFetching ? "disabled" : ""
+                                }`}
                             >
                                 Login
                             </button>
@@ -99,10 +122,10 @@ const Login = () => {
 
                         <div className="cta">
                             <p>
-                                New student? <a href="/">Register Now</a>
-                            </p>
-                            <p>
-                                New Faculty? <a href="/">Register Now</a>
+                                New user?{" "}
+                                <Link to="/register" className="a">
+                                    Register Here
+                                </Link>
                             </p>
                         </div>
                     </div>
