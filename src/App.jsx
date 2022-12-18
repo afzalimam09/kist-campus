@@ -7,7 +7,15 @@ import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 
 function App() {
-    const user = useSelector((state) => state.user.currentUser);
+    let userState;
+    const state = useSelector((state) => state);
+    if (state) {
+        userState = state.user;
+    }
+    let user;
+    if (userState) {
+        user = userState.currentUser;
+    }
     let admin;
     if (user) {
         admin = user.data.isAdmin;
