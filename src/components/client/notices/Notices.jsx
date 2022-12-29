@@ -18,7 +18,8 @@ const Notices = () => {
                     `/notice?page=${currentPage}&limit=${pageSize}`
                 );
                 setLoading(false);
-                setNotices([...notices, ...res.data.data]);
+                // setNotices([...notices, ...res.data.data]);
+                setNotices((prev) => [...prev, ...res.data.data]);
                 setTotalPage(Math.ceil(res.data.totalResults / pageSize));
             } catch (error) {
                 console.log(error);

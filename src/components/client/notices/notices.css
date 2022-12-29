@@ -1,3 +1,5 @@
+
+
 .notice {
     background-repeat: no-repeat;
     background-size: cover;
@@ -17,7 +19,7 @@
     background-color: var(--white);
     border-radius: var(--radius-6);
     overflow: hidden;
-    padding: 5px;
+    padding: 15px;
 }
 
 .notice-card .card-banner {
@@ -27,11 +29,6 @@
     border-radius: 6px;
 }
 
-/* .notice-card .img-cover {
-   padding: 5px;
-   border-radius: 6px;
-} */
-
 .notice-card .card-banner img {
     transition: var(--transition-2);
 }
@@ -40,55 +37,16 @@
     transform: scale(1.1);
 }
 
-.notice-card .card-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 15px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-}
-
-.notice-card .date-badge {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: var(--white);
-    color: var(--ultramarine-blue);
-    font-size: var(--fs-6);
-    font-weight: var(--fw-600);
-    padding: 4px 12px;
-    border-radius: var(--radius-4);
-}
-
-.notice-card .save-btn {
-    background-color: var(--space-cadet_20);
-    color: var(--white);
-    font-size: 18px;
-    padding: 6px;
-    margin: 5px;
-    border-radius: 50%;
-    backdrop-filter: blur(10px);
-    transition: var(--transition-2);
-}
-
-.notice-card .save-btn:hover {
-    color: var(--ultramarine-blue);
-}
-
-.notice-card .save-btn:hover ion-icon {
-    transform: scale(1.1);
-}
-
 .notice-card .card-content {
-    padding: 25px 20px;
+    padding-top: 20px;
+    padding-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
 }
 
 .notice-card .card-title {
     line-height: 1.6;
-    margin-block: 10px 15px;
     transition: var(--transition-1);
 }
 
@@ -101,7 +59,6 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-block-end: 25px;
 }
 
 .notice-card .people-icon {
@@ -116,10 +73,20 @@
     font-size: 14px;
 }
 
+.notice-card .date-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--white);
+    color: var(--ultramarine-blue);
+    font-size: var(--fs-6);
+    font-weight: var(--fw-600);
+    border-radius: var(--radius-4);
+}
 
 
 .notice-card .card-footer {
-    padding-block-start: 25px;
+    padding-top: 15px;
     border-block-start: 1px solid var(--cultured-2);
     display: flex;
     flex-wrap: wrap;
@@ -153,31 +120,6 @@
 /*-----------------------------------*\
   #MEDIA QUERIES
 \*-----------------------------------*/
-
-/**
- * responsive for larger than 575px screen
- */
-
-@media (min-width: 575px) {}
-
-
-/**
- * responsive for larger than 768px screen
- */
-
-@media (min-width: 768px) {
-    .notice-card .card-content {
-            padding-inline: 30px;
-            padding-block-end: 30px;
-        }
-}
-
-
-/**
- * responsive for larger than 992px screen
- */
-
-@media (min-width: 992px) {}
 
 
 /**

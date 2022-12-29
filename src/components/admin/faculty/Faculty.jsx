@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { userRequest } from "../../../requestMethods";
 
-const Faculty = () => {
+const Faculty = ({ clickedComponent, setUserData }) => {
     const pageSize = 7;
     const [currentPage, setCurrentPage] = useState(1);
     const [faculties, setFaculties] = useState([]);
@@ -16,7 +16,7 @@ const Faculty = () => {
                     `user?role=faculty&page=${currentPage}&limit=${pageSize}`
                 );
                 setLoading(false);
-                setFaculties([...faculties, ...res.data.data]);
+                setFaculties((prev) => [...prev, ...res.data.data]);
                 setTotalPage(Math.ceil(res.data.totalResults / pageSize));
             } catch (error) {
                 console.log(error);
@@ -27,6 +27,11 @@ const Faculty = () => {
 
     const handleClick = () => {
         setCurrentPage(currentPage + 1);
+    };
+
+    const handleView = (student) => {
+        clickedComponent("UserView");
+        setUserData(student);
     };
 
     return (
@@ -62,8 +67,12 @@ const Faculty = () => {
                                     </td>
                                     <td>
                                         <span className="action-all">
-                                            <ion-icon name="create-outline"></ion-icon>
-                                            <ion-icon name="eye-outline"></ion-icon>
+                                            <ion-icon
+                                                onClick={() =>
+                                                    handleView(faculty)
+                                                }
+                                                name="eye-outline"
+                                            ></ion-icon>
                                         </span>
                                     </td>
                                 </tr>

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./addNotice.css";
 import {
     getStorage,
     ref,
@@ -92,15 +91,61 @@ const AddNotice = ({ clickedComponent }) => {
     };
 
     return (
-        <main className="add-notice">
+        <main>
             <div className="head-title">
                 <div className="left">
                     <h1>Add New Notice</h1>
                 </div>
             </div>
 
-            <form className="form-content">
-                <div>
+            <div className="form">
+                <div className="image-box">
+                    <label>
+                        Notice Image <span>*</span>
+                    </label>
+                    <div className="image-input">
+                        <img
+                            src={file ? URL.createObjectURL(file) : ""}
+                            alt=""
+                        />
+                        <label className="upload-box" htmlFor="notice-image">
+                            <ion-icon name="camera-reverse-outline"></ion-icon>
+                        </label>
+                        <input
+                            id="notice-image"
+                            name="imageUrl"
+                            style={{ display: "none" }}
+                            type="file"
+                            placeholder="Upload Image"
+                            required
+                            onChange={(e) => setFile(e.target.files[0])}
+                        />
+                    </div>
+                </div>
+
+                <div className="title-box">
+                    <label>
+                        Notice Title <span>*</span>
+                    </label>
+                    <input
+                        type="text"
+                        name="title"
+                        placeholder="Enter notice title"
+                        required
+                        onChange={handleChange}
+                    />
+                </div>
+
+                <div className="desc-box">
+                    <label>Notice Description</label>
+                    <textarea
+                        onChange={handleChange}
+                        name="description"
+                        placeholder="Enter notice description"
+                    ></textarea>
+                </div>
+
+                {/* <div>
                     <label>
                         Notice Title <span>*</span>
                     </label>
@@ -114,9 +159,9 @@ const AddNotice = ({ clickedComponent }) => {
                             onChange={handleChange}
                         />
                     </div>
-                </div>
+                </div> */}
 
-                <div>
+                {/* <div>
                     <label>Notice Description</label>
                     <div className="input-wrapper textarea">
                         <textarea
@@ -125,9 +170,9 @@ const AddNotice = ({ clickedComponent }) => {
                             placeholder="Enter notice description"
                         ></textarea>
                     </div>
-                </div>
+                </div> */}
 
-                <div>
+                {/* <div>
                     <label>
                         Upload Image <span>*</span>
                     </label>
@@ -146,7 +191,7 @@ const AddNotice = ({ clickedComponent }) => {
                             Uploading {progress}% done
                         </p>
                     )}
-                </div>
+                </div> */}
 
                 <button
                     onClick={handleClick}
@@ -154,7 +199,7 @@ const AddNotice = ({ clickedComponent }) => {
                 >
                     Submit
                 </button>
-            </form>
+            </div>
         </main>
     );
 };

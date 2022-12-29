@@ -9,6 +9,8 @@ import Faculty from "../../../components/admin/faculty/Faculty";
 import AddNotice from "../../../components/admin/add-notice/AddNotice";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import UpdateNotice from "../../../components/admin/update-notice/UpdateNotice";
+import UserView from "../../../components/admin/user-view/UserView";
 
 const Dashboard = () => {
     const currentUser = useSelector((state) => state.user.currentUser);
@@ -19,6 +21,8 @@ const Dashboard = () => {
     // For navbar and dynamic component rendering
     const [navClicked, setNavClicked] = useState(false);
     const [component, setComponent] = useState("Index");
+    const [noticeData, setNoticeData] = useState({});
+    const [userData, setUserData] = useState({});
 
     const clickedComponent = (item) => {
         setComponent(item);
@@ -37,7 +41,7 @@ const Dashboard = () => {
                         onClick={() => setNavClicked(!navClicked)}
                         className="bx bx-menu"
                     ></i>
-                    <Link to="/" className="profile">
+                    <Link to="/profile" className="profile">
                         <img src={imgUrl} alt="profile" />
                     </Link>
                 </nav>
@@ -46,10 +50,27 @@ const Dashboard = () => {
                     <Index clickedComponent={clickedComponent} />
                 )}
                 {component === "Notice" && (
-                    <Notice clickedComponent={clickedComponent} />
+                    <Notice
+                        clickedComponent={clickedComponent}
+                        setNoticeData={setNoticeData}
+                    />
                 )}
-                {component === "Student" && <Student />}
-                {component === "Faculty" && <Faculty />}
+                {component === "Student" && (
+                    <Student
+                        clickedComponent={clickedComponent}
+                        setUserData={setUserData}
+                    />
+                )}
+                {component === "Faculty" && (
+                    <Faculty
+                        clickedComponent={clickedComponent}
+                        setUserData={setUserData}
+                    />
+                )}
+                {component === "UpdateNotice" && (
+                    <UpdateNotice noticeData={noticeData} />
+                )}
+                {component === "UserView" && <UserView userData={userData} />}
                 {component === "AddNotice" && (
                     <AddNotice clickedComponent={clickedComponent} />
                 )}

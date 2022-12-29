@@ -35,12 +35,6 @@ html {
     overflow-x: hidden;
 }
 
-body.dark {
-    --light: #0C0C1E;
-    --grey: #060714;
-    --dark: #FBFBFB;
-}
-
 body {
     background: var(--grey);
     overflow-x: hidden;
@@ -366,14 +360,19 @@ body {
 #content main .table-data .head .btn-view-all {
     height: 36px;
         padding: 0 16px;
-        border-radius: 36px;
-        background: var(--blue);
-        color: var(--light);
+        border-radius: 5px;
+        color: var(--blue);
         display: flex;
+        border: 1px solid var(--blue);
         justify-content: center;
         align-items: center;
         grid-gap: 10px;
-        font-weight: 500;
+        transition: 0.4s ease-out;
+}
+
+#content main .table-data .head .btn-view-all:hover {
+    color: white;
+    background-color: var(--blue);
 }
 
 #content main .table-data .head h3 {
@@ -406,10 +405,6 @@ body {
 #content main .table-data .order table tbody tr:hover {
     background: var(--grey);
 }
-
-/* #content main .table-data .order table tr td .status {
-         
-} */
 
 #content main .table-data .order table tr td .action {
     display: flex;
@@ -455,6 +450,165 @@ body {
     pointer-events: none;
     cursor: not-allowed;
 }
+
+/* Add and Update Notice CSS - Form  */
+.form {
+    max-width: 38rem;
+    background-color: aliceblue;
+    padding: 2rem;
+    border-radius: var(--radius-6);
+    margin: 0 auto;
+    margin-top: 2rem;
+}
+
+.form label {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 10px;
+    color: var(--black_80);
+}
+
+.form label span {
+    color: var(--tart-orange);
+    font-size: 20px;
+}
+
+.form .image-box {
+    margin-bottom: 20px;
+}
+
+.form .image-box .image-input {
+    position: relative;
+    min-height: 160px;
+    border: 2px solid gray;
+    border-radius: 8px;
+}
+
+.form .image-box .upload-box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 50px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 2px solid gray;
+    background-color: gray;
+    padding: 20px;
+    opacity: 0.6;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+.form .image-box img {
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+.form .title-box input {
+    border: 2px solid gray;
+    outline: none;
+    font-weight: 400;
+    border-radius: 8px;
+    padding: 6px 4px;
+    margin-bottom: 20px;
+}
+
+.form .desc-box {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form .desc-box textarea {
+    height: 100px;
+    outline: none;
+    background-color: transparent;
+    border: 2px solid gray;
+    border-radius: 8px;
+    padding: 6px;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.form .submit_btn {
+    padding: 5px 10px;
+    transition: var(--transition-1);
+    border-radius: var(--radius-6);
+}
+
+ /* User View CSS */
+
+ .info-wrapper {
+     display: flex;
+     gap: 40px;
+     background: var(--white);
+     padding: 20px;
+     border-radius: 15px;
+     font-weight: 500;
+     margin-bottom: 30px;
+ }
+
+ .info-wrapper img {
+     width: 200px;
+     height: 200px;
+     border-radius: 10px;
+ }
+
+ .info-wrapper .info p {
+     display: flex;
+     gap: 10px;
+     font-weight: 600;
+     line-height: 1.5;
+ }
+
+ .info-wrapper .info p span {
+     font-weight: 400;
+ }
+
+ .status-wrapper {
+     display: flex;
+     flex-direction: column;
+     gap: 25px;
+     background: var(--white);
+     padding: 20px;
+     border-radius: 15px;
+     font-weight: 500;
+     margin-bottom: 30px;
+ }
+
+ .status-wrapper .input-box {
+     display: flex;
+     flex-direction: column;
+     gap: 15px;
+     max-width: 32rem;
+ }
+
+ .status-wrapper .input-box select {
+     padding: 7px;
+     outline: none;
+     border: 2px solid gray;
+     border-radius: 8px;
+ }
+
+ .status-wrapper .input-box textarea {
+     height: 100px;
+     outline: none;
+     background-color: transparent;
+     border: 2px solid gray;
+     border-radius: 8px;
+     padding: 6px;
+     font-weight: 500;
+     font-size: 16px;
+ }
+
+ .status-wrapper .submit-btn {
+     max-width: 32rem;
+     padding: 5px 10px;
+     transition: var(--transition-1);
+     border-radius: var(--radius-6);
+ }
 
 /* MAIN */
 /* CONTENT */
@@ -533,6 +687,16 @@ body {
 
 .ldio-jwms0hkh9jg div {
     box-sizing: content-box;
+}
+
+@media screen and (max-width: 676px) {
+    .info-wrapper {
+        flex-direction: column;
+    }
+
+    .info-wrapper img {
+        margin: 0 auto;
+    }
 }
 
 

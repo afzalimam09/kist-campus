@@ -1,7 +1,9 @@
 import "./hero.css";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Hero = () => {
+    const user = useSelector((state) => state.user.currentUser);
     return (
         <section
             className="hero"
@@ -21,12 +23,19 @@ const Hero = () => {
                         Welcome to Konark Institute of Science and Technology.
                         Get all the notices directly on your email!
                     </p>
+                    {user ? (
+                        <Link to="/profile" className="btn btn-primary">
+                            <span className="span">My Profile</span>
 
-                    <Link to="/register" className="btn btn-primary">
-                        <span className="span">Get Started Today</span>
+                            <ion-icon name="arrow-forward-outline"></ion-icon>
+                        </Link>
+                    ) : (
+                        <Link to="/register" className="btn btn-primary">
+                            <span className="span">Get Started Today</span>
 
-                        <ion-icon name="arrow-forward-outline"></ion-icon>
-                    </Link>
+                            <ion-icon name="arrow-forward-outline"></ion-icon>
+                        </Link>
+                    )}
                 </div>
 
                 <figure className="hero-banner">

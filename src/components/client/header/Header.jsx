@@ -1,13 +1,10 @@
 import { useState } from "react";
 import "./header.css";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../../redux/userRedux";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Header = () => {
     const user = useSelector((state) => state.user.currentUser);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
     // To controll navigation menu
     const [active, setActive] = useState(false);
     const toggleElm = () => setActive(!active);
@@ -21,11 +18,6 @@ const Header = () => {
             setScroll(false);
         }
     });
-
-    const handleLogout = () => {
-        dispatch(logout());
-        navigate("/login");
-    };
 
     return (
         <header className={`header ${scroll ? "active header-anim" : ""}`}>
@@ -73,21 +65,20 @@ const Header = () => {
 
                         <li className="navbar-item">
                             <Link
-                                to="/notices"
-                                onClick={toggleElm}
-                                className="navbar-link"
-                            >
-                                Notices
-                            </Link>
-                        </li>
-
-                        <li className="navbar-item">
-                            <Link
                                 to="/contact"
                                 onClick={toggleElm}
                                 className="navbar-link"
                             >
                                 Contact
+                            </Link>
+                        </li>
+                        <li className="navbar-item">
+                            <Link
+                                to="/bookmark"
+                                onClick={toggleElm}
+                                className="navbar-link"
+                            >
+                                Bookmark
                             </Link>
                         </li>
                     </ul>
@@ -107,14 +98,17 @@ const Header = () => {
                             <span className="span">Login / Register</span>
                         </Link>
                     ) : (
-                        <button
-                            onClick={handleLogout}
+                        <Link
+                            to="/profile"
                             className="header-action-btn login-btn"
                         >
-                            <ion-icon name="log-out-outline"></ion-icon>
+                            <ion-icon
+                                name="person-outline"
+                                aria-hidden="true"
+                            ></ion-icon>
 
-                            <span className="span">Logout</span>
-                        </button>
+                            <span className="span">My Profile</span>
+                        </Link>
                     )}
 
                     <button

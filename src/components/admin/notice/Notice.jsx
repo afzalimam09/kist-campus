@@ -12,7 +12,7 @@ const notyf = new Notyf({
     },
 });
 
-const Notice = ({ clickedComponent }) => {
+const Notice = ({ clickedComponent, setNoticeData }) => {
     const pageSize = 7;
     const [currentPage, setCurrentPage] = useState(1);
     const [notices, setNotices] = useState([]);
@@ -20,20 +20,20 @@ const Notice = ({ clickedComponent }) => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const getStudents = async () => {
+        const getNotices = async () => {
             try {
                 setLoading(true);
                 const res = await userRequest.get(
                     `/notice?page=${currentPage}&limit=${pageSize}`
                 );
                 setLoading(false);
-                setNotices([...notices, ...res.data.data]);
+                setNotices((prev) => [...prev, ...res.data.data]);
                 setTotalPage(Math.ceil(res.data.totalResults / pageSize));
             } catch (error) {
                 console.log(error);
             }
         };
-        getStudents();
+        getNotices();
     }, [currentPage]);
 
     const handleDelete = async (id) => {
@@ -52,6 +52,11 @@ const Notice = ({ clickedComponent }) => {
 
     const handleClick = () => {
         setCurrentPage(currentPage + 1);
+    };
+
+    const handleEdit = (notice) => {
+        clickedComponent("UpdateNotice");
+        setNoticeData(notice);
     };
 
     return (
@@ -93,7 +98,12 @@ const Notice = ({ clickedComponent }) => {
                                     </td>
                                     <td>
                                         <span className="action-all">
-                                            <ion-icon name="create-outline"></ion-icon>
+                                            <ion-icon
+                                                onClick={() =>
+                                                    handleEdit(notice)
+                                                }
+                                                name="create-outline"
+                                            ></ion-icon>
                                             <ion-icon name="eye-outline"></ion-icon>
                                             <ion-icon
                                                 onClick={() =>

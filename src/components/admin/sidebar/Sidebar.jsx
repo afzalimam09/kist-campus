@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { logout } from "../../../redux/userRedux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Sidebar = ({ navClicked, clickedComponent, component }) => {
     const dispatch = useDispatch();
@@ -68,10 +68,12 @@ const Sidebar = ({ navClicked, clickedComponent, component }) => {
             </ul>
             <ul className="side-menu">
                 <li>
-                    <p>
-                        <i className="bx bxs-cog"></i>
-                        <span className="text">Account</span>
-                    </p>
+                    <Link to="/profile">
+                        <p>
+                            <i className="bx bxs-cog"></i>
+                            <span className="text">Account</span>
+                        </p>
+                    </Link>
                 </li>
                 <li>
                     <p onClick={handleLogout} className="logout">

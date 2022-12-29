@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import userReducer from "./userRedux";
 import noticeReducer from "./noticeRedux";
+import bookmarkReducer from "./bookmarkRedux";
 import {
     persistStore,
     persistReducer,
@@ -22,6 +23,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
     user: userReducer,
     notice: noticeReducer,
+    bookmark: bookmarkReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

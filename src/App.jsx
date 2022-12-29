@@ -5,6 +5,9 @@ import Login from "./pages/client/login/Login";
 import Register from "./pages/client/register/Register";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import Profile from "./pages/client/profile/Profile";
+import Bookmark from "./pages/client/bookmark/Bookmark";
+import Notification from "./pages/client/notifications/Notification";
 
 function App() {
     const user = useSelector((state) => state.user.currentUser);
@@ -17,6 +20,7 @@ function App() {
             <Routes>
                 <Route path="/">
                     <Route index element={<Home />} />
+                    <Route path="bookmark" element={<Bookmark />} />
                     <Route
                         path="login"
                         element={user ? <Navigate to="/" /> : <Login />}
@@ -24,6 +28,16 @@ function App() {
                     <Route
                         path="register"
                         element={user ? <Navigate to="/" /> : <Register />}
+                    />
+                    <Route
+                        path="profile"
+                        element={!user ? <Navigate to="/login" /> : <Profile />}
+                    />
+                    <Route
+                        path="notification"
+                        element={
+                            !user ? <Navigate to="/login" /> : <Notification />
+                        }
                     />
                 </Route>
                 <Route path="/admin/">
