@@ -8,6 +8,7 @@ import { Navigate } from "react-router-dom";
 import Profile from "./pages/client/profile/Profile";
 import Bookmark from "./pages/client/bookmark/Bookmark";
 import Notification from "./pages/client/notifications/Notification";
+import ViewNotice from "./pages/client/view-notice/ViewNotice";
 
 function App() {
     const user = useSelector((state) => state.user.currentUser);
@@ -40,6 +41,7 @@ function App() {
                         }
                     />
                 </Route>
+                <Route path="/notice/:noticeId" element={<ViewNotice />} />
                 <Route path="/admin/">
                     <Route
                         path="dashboard"

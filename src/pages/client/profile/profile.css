@@ -3,7 +3,13 @@
     background-size: cover;
     background-position: center;
 }
-
+.profile .warning-wrapper {
+    margin-top: 50px;
+    background: var(--orange-peel);
+    padding: 20px;
+    border-radius: 15px;
+    color: white;
+}
 .profile .profile-wrapper {
     align-items: center;
     margin-top: 50px;

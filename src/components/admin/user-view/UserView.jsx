@@ -1,4 +1,44 @@
+import { useState } from "react";
+import "notyf/notyf.min.css";
+import { userRequest } from "../../../requestMethods";
+import { notyf } from "../../../alert";
+
 const UserView = ({ userData }) => {
+    const [status, setStatus] = useState(null);
+    const [desc, setDesc] = useState(undefined);
+    const [resStatus, setResStatus] = useState(null);
+    const handleSubmit = async () => {
+        if (!status && !desc) {
+            notyf.error("You have'nt changed any thing.");
+            return;
+        }
+
+        if (desc) {
+            try {
+                await userRequest.post("/notification", {
+                    userId: userData._id,
+                    content: desc,
+                });
+                notyf.success("Notification Added.");
+                setDesc(null);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        if (status) {
+            try {
+                const res = await userRequest.patch(`/user/${userData._id}`, {
+                    status,
+                });
+                setResStatus(res.data.data.status);
+                setStatus(null);
+
+                notyf.success("Successfully updated status");
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
     return (
         <main>
             <div className="head-title">
@@ -50,22 +90,32 @@ const UserView = ({ userData }) => {
                 <div className="status-wrapper">
                     <h1>Account Status</h1>
                     <p>
-                        This user account is currently <b> {userData.status}</b>
-                        .
+                        This user account is currently{" "}
+                        <b> {resStatus ? resStatus : userData.status}</b>.
                     </p>
                     <div className="input-box">
                         <label>Change Account Status</label>
-                        <select>
-                            <option>Pending</option>
-                            <option>Active</option>
-                            <option>Blocked</option>
+                        <select
+                            defaultValue={userData.status}
+                            onChange={(e) => setStatus(e.target.value)}
+                        >
+                            <option value="pending">Pending</option>
+                            <option value="active">Active</option>
+                            <option value="blocked">Blocked</option>
                         </select>
                     </div>
                     <div className="input-box">
                         <label>Message (Optional)</label>
-                        <textarea></textarea>
+                        <textarea
+                            onChange={(e) => setDesc(e.target.value)}
+                        ></textarea>
                     </div>
-                    <button className="btn-primary submit-btn">Submit</button>
+                    <button
+                        onClick={handleSubmit}
+                        className="btn-primary submit-btn"
+                    >
+                        Submit
+                    </button>
                 </div>
             </div>
         </main>

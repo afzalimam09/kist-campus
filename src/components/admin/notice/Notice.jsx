@@ -1,18 +1,11 @@
 import React, { useEffect, useState } from "react";
 import dateFormat from "dateformat";
 import { userRequest } from "../../../requestMethods";
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
-
-const notyf = new Notyf({
-    duration: 2000,
-    position: {
-        x: "right",
-        y: "top",
-    },
-});
+import { notyf } from "../../../alert";
+import { useNavigate } from "react-router-dom";
 
 const Notice = ({ clickedComponent, setNoticeData }) => {
+    const navigate = useNavigate();
     const pageSize = 7;
     const [currentPage, setCurrentPage] = useState(1);
     const [notices, setNotices] = useState([]);
@@ -37,7 +30,6 @@ const Notice = ({ clickedComponent, setNoticeData }) => {
     }, [currentPage]);
 
     const handleDelete = async (id) => {
-        console.log("deleting..: ", id);
         try {
             await userRequest.delete(`/notice/${id}`);
             const updatedNotices = notices.filter(
@@ -104,7 +96,14 @@ const Notice = ({ clickedComponent, setNoticeData }) => {
                                                 }
                                                 name="create-outline"
                                             ></ion-icon>
-                                            <ion-icon name="eye-outline"></ion-icon>
+                                            <ion-icon
+                                                onClick={() =>
+                                                    navigate(
+                                                        `/notice/${notice._id}`
+                                                    )
+                                                }
+                                                name="eye-outline"
+                                            ></ion-icon>
                                             <ion-icon
                                                 onClick={() =>
                                                     handleDelete(notice._id)

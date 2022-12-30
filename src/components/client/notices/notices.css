@@ -14,7 +14,7 @@
     margin-block: 60px;
 }
 
-.notice-card {
+.notice .notice-card {
     position: relative;
     background-color: var(--white);
     border-radius: var(--radius-6);
@@ -22,22 +22,22 @@
     padding: 15px;
 }
 
-.notice-card .card-banner {
+.notice .notice-card .card-banner {
     background-color: var(--light-gray);
     aspect-ratio: 370 / 270;
     overflow: hidden;
     border-radius: 6px;
 }
 
-.notice-card .card-banner img {
+.notice .notice-card .card-banner img {
     transition: var(--transition-2);
 }
 
-.notice-card:is(:hover, :focus-within) .card-banner img {
+.notice .notice-card:is(:hover, :focus-within) .card-banner img {
     transform: scale(1.1);
 }
 
-.notice-card .card-content {
+.notice .notice-card .card-content {
     padding-top: 20px;
     padding-bottom: 5px;
     display: flex;
@@ -45,35 +45,35 @@
     gap: 13px;
 }
 
-.notice-card .card-title {
+.notice .notice-card .card-title {
     line-height: 1.6;
     transition: var(--transition-1);
 }
 
-.notice-card .card-title:is(:hover, :focus) {
+.notice .notice-card .card-title:is(:hover, :focus) {
     color: var(--ultramarine-blue);
 }
 
 
-.notice-card .tag-wrapper {
+.notice .notice-card .tag-wrapper {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.notice-card .people-icon {
+.notice .notice-card .people-icon {
     font-size: 18px;
 }
 
 
-.notice-card .branch {
+.notice .notice-card .branch {
     display: flex;
     align-items: center;
     gap: 8px;
     font-size: 14px;
 }
 
-.notice-card .date-badge {
+.notice .notice-card .date-badge {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -85,7 +85,7 @@
 }
 
 
-.notice-card .card-footer {
+.notice .notice-card .card-footer {
     padding-top: 15px;
     border-block-start: 1px solid var(--cultured-2);
     display: flex;
@@ -95,7 +95,7 @@
     gap: 8px;
 }
 
-.notice-card .card-btn {
+.notice .notice-card .card-btn {
     display: flex;
     flex-wrap: wrap;
     align-items: center;

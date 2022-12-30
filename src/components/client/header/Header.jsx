@@ -52,35 +52,70 @@ const Header = () => {
                                 Home
                             </Link>
                         </li>
-
-                        <li className="navbar-item">
-                            <Link
-                                to="/about"
-                                onClick={toggleElm}
-                                className="navbar-link"
-                            >
-                                About
-                            </Link>
-                        </li>
-
-                        <li className="navbar-item">
-                            <Link
-                                to="/contact"
-                                onClick={toggleElm}
-                                className="navbar-link"
-                            >
-                                Contact
-                            </Link>
-                        </li>
                         <li className="navbar-item">
                             <Link
                                 to="/bookmark"
                                 onClick={toggleElm}
                                 className="navbar-link"
                             >
-                                Bookmark
+                                Bookmarks
                             </Link>
                         </li>
+                        {!user && (
+                            <>
+                                <li className="navbar-item">
+                                    <Link
+                                        to="/login"
+                                        onClick={toggleElm}
+                                        className="navbar-link"
+                                    >
+                                        Login
+                                    </Link>
+                                </li>
+                                <li className="navbar-item">
+                                    <Link
+                                        to="/register"
+                                        onClick={toggleElm}
+                                        className="navbar-link"
+                                    >
+                                        Register
+                                    </Link>
+                                </li>
+                            </>
+                        )}
+                        {user && (
+                            <>
+                                <li className="navbar-item">
+                                    <Link
+                                        to="/profile"
+                                        onClick={toggleElm}
+                                        className="navbar-link"
+                                    >
+                                        Profile
+                                    </Link>
+                                </li>
+                                <li className="navbar-item">
+                                    <Link
+                                        to="/notification"
+                                        onClick={toggleElm}
+                                        className="navbar-link"
+                                    >
+                                        Notification
+                                    </Link>
+                                </li>
+                            </>
+                        )}
+                        {user?.data?.isAdmin && (
+                            <li className="navbar-item">
+                                <Link
+                                    to="/admin/dashboard"
+                                    onClick={toggleElm}
+                                    className="navbar-link"
+                                >
+                                    Admin Dashboard
+                                </Link>
+                            </li>
+                        )}
                     </ul>
                 </nav>
 

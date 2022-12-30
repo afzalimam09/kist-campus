@@ -6,16 +6,7 @@ import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../../redux/apiCalls";
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css"; // for React, Vue and Svelte
-
-const notyf = new Notyf({
-    duration: 2000,
-    position: {
-        x: "right",
-        y: "top",
-    },
-});
+import { notyf } from "../../../alert";
 
 const Login = () => {
     const [email, setEmail] = useState("");

@@ -1,18 +1,11 @@
 import dateFormat from "dateformat";
 import { add } from "../../../redux/bookmarkRedux";
 import { useDispatch, useSelector } from "react-redux";
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
-
-const notyf = new Notyf({
-    duration: 2000,
-    position: {
-        x: "right",
-        y: "top",
-    },
-});
+import { useNavigate } from "react-router-dom";
+import { notyf } from "../../../alert";
 
 const Notice = ({ notice }) => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const bookmark = useSelector((state) => state.bookmark);
     const saveToBookmark = (notice) => {
@@ -27,6 +20,9 @@ const Notice = ({ notice }) => {
         }
         dispatch(add(notice));
         notyf.success("Added to bookmark!");
+    };
+    const handleView = (id) => {
+        navigate(`/notice/${id}`);
     };
     return (
         <li>
@@ -71,7 +67,10 @@ const Notice = ({ notice }) => {
                     </div>
 
                     <div className="card-footer">
-                        <button className="card-btn btn-primary">
+                        <button
+                            onClick={() => handleView(notice._id)}
+                            className="card-btn btn-primary"
+                        >
                             <ion-icon name="eye-outline"></ion-icon>
                             <span>View</span>
                         </button>

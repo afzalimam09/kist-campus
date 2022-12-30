@@ -5,16 +5,7 @@ import BackToTop from "../../../components/shared/backtotop/BackToTop";
 import "./register.css";
 import { Link, useNavigate } from "react-router-dom";
 import { publicRequest } from "../../../requestMethods";
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
-
-const notyf = new Notyf({
-    duration: 2000,
-    position: {
-        x: "right",
-        y: "top",
-    },
-});
+import { notyf } from "../../../alert";
 
 const Register = () => {
     const [inputs, setInputs] = useState({});

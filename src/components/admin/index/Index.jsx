@@ -1,19 +1,11 @@
 import dateFormat from "dateformat";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { notyf } from "../../../alert";
 import { userRequest } from "../../../requestMethods";
 
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
-
-const notyf = new Notyf({
-    duration: 2000,
-    position: {
-        x: "right",
-        y: "top",
-    },
-});
-
-const Index = ({ clickedComponent }) => {
+const Index = ({ clickedComponent, setUserData }) => {
+    const navigate = useNavigate();
     const [totalNotices, setTotalNotices] = useState(0);
     const [totalStudents, setTotalStudents] = useState(0);
     const [totalFaculties, setTotalFaculties] = useState(0);
@@ -48,6 +40,11 @@ const Index = ({ clickedComponent }) => {
         };
         getData();
     }, []);
+
+    const handleView = (student) => {
+        clickedComponent("UserView");
+        setUserData(student);
+    };
 
     return (
         <main>
@@ -121,7 +118,14 @@ const Index = ({ clickedComponent }) => {
                                                 <p>{notice.title}</p>
                                             </td>
                                             <td>
-                                                <button className="action">
+                                                <button
+                                                    onClick={() =>
+                                                        navigate(
+                                                            `/notice/${notice._id}`
+                                                        )
+                                                    }
+                                                    className="action"
+                                                >
                                                     <span>View</span>
                                                     <ion-icon name="eye-outline"></ion-icon>
                                                 </button>
@@ -166,7 +170,12 @@ const Index = ({ clickedComponent }) => {
                                                 </span>
                                             </td>
                                             <td>
-                                                <button className="action">
+                                                <button
+                                                    onClick={() =>
+                                                        handleView(student)
+                                                    }
+                                                    className="action"
+                                                >
                                                     <span>View</span>
                                                     <ion-icon name="eye-outline"></ion-icon>
                                                 </button>
@@ -211,7 +220,12 @@ const Index = ({ clickedComponent }) => {
                                                 </span>
                                             </td>
                                             <td>
-                                                <button className="action">
+                                                <button
+                                                    onClick={() =>
+                                                        handleView(faculty)
+                                                    }
+                                                    className="action"
+                                                >
                                                     <span>View</span>
                                                     <ion-icon name="eye-outline"></ion-icon>
                                                 </button>

@@ -11,7 +11,6 @@ const Bookmark = () => {
     const dispatch = useDispatch();
     const bookmarks = useSelector((state) => state.bookmark);
     const removeBookmark = (id) => {
-        console.log(id);
         dispatch(remove(id));
     };
     return (

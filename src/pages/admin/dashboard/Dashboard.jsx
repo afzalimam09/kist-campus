@@ -47,7 +47,10 @@ const Dashboard = () => {
                 </nav>
 
                 {component === "Index" && (
-                    <Index clickedComponent={clickedComponent} />
+                    <Index
+                        clickedComponent={clickedComponent}
+                        setUserData={setUserData}
+                    />
                 )}
                 {component === "Notice" && (
                     <Notice

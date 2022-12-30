@@ -7,16 +7,7 @@ import {
 } from "firebase/storage";
 import app from "../../../firebase.js";
 import { userRequest } from "../../../requestMethods";
-import { Notyf } from "notyf";
-import "notyf/notyf.min.css";
-
-const notyf = new Notyf({
-    duration: 2000,
-    position: {
-        x: "right",
-        y: "top",
-    },
-});
+import { notyf } from "../../../alert.js";
 
 const AddNotice = ({ clickedComponent }) => {
     const [inputs, setInputs] = useState({});
