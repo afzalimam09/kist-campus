@@ -464,7 +464,7 @@ body {
 .form label {
     display: flex;
     gap: 4px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     color: var(--black_80);
 }
 
@@ -551,8 +551,8 @@ body {
  }
 
  .info-wrapper img {
-     width: 200px;
-     height: 200px;
+     width: 230px;
+     height: 250px;
      border-radius: 10px;
  }
 

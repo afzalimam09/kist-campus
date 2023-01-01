@@ -13,7 +13,7 @@ const Student = ({ clickedComponent, setUserData }) => {
             try {
                 setLoading(true);
                 const res = await userRequest.get(
-                    `user?role=student&page=${currentPage}&limit=${pageSize}`
+                    `user?role=Student&page=${currentPage}&limit=${pageSize}`
                 );
                 setLoading(false);
                 setStudents((prev) => [...prev, ...res.data.data]);

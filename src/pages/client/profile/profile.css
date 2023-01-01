@@ -23,9 +23,10 @@
 }
 
 .profile .profile-wrapper img {
-    width: 200px;
-    height: 200px;
+    width: 230px;
+    height: 250px;
     border-radius: 10px;
+    border: 2px solid gray;
 }
 
 .profile .profile-wrapper .info {
@@ -76,7 +77,13 @@
     gap: 2rem;
 }
 
-.profile .change-profile .input-boxes .input-box input {
+.profile .change-profile .input-boxes .input-box p {
+    margin-top: 3px;
+    color: #ff3d3d;
+    font-size: 13px;
+}
+
+.profile .change-profile .input-boxes .input-box input,select {
     margin-top: 5px;
     border: 1px solid gray;
     height: 45px;
@@ -84,6 +91,36 @@
     color: var(--old-lavender);
     border-radius: var(--radius-6);
     outline: none;
+}
+
+.profile .change-profile .input-boxes .input-box select {
+    width: 100%;
+}
+
+.profile .change-profile .input-boxes .input-box .uploadProfile {
+    margin-top: 6px;
+    position: relative;
+}
+
+.profile .change-profile .input-boxes .input-box .uploadProfile img {
+    width: 190px;
+    height: 210px;
+    border-radius: 10px;
+    border: 2px solid gray;
+    
+}
+
+.profile .change-profile .input-boxes .input-box .uploadProfile label {
+    position: absolute;
+    font-size: 20px;
+    top: 8px;
+    left: 155px;
+    cursor: pointer;
+    background-color: white;
+    color: var(--ultramarine-blue);
+    padding: 3px;
+    border-radius: 50%;
+    border: 1px solid gray;
 }
 
 @media (min-width: 792px) {

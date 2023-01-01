@@ -6,32 +6,57 @@ import "./register.css";
 import { Link, useNavigate } from "react-router-dom";
 import { publicRequest } from "../../../requestMethods";
 import { notyf } from "../../../alert";
+import { useForm } from "react-hook-form";
 
 const Register = () => {
-    const [inputs, setInputs] = useState({});
+    const [userPhoto, setUserPhoto] = useState("");
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [fileError, setFileError] = useState(false);
     const navigate = useNavigate();
 
-    const handleChange = (e) => {
-        setInputs((prev) => {
-            return { ...prev, [e.target.name]: e.target.value };
-        });
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm();
+
+    const handleUserImage = (e) => {
+        const file = e.target.files[0];
+        TransformFileData(file);
     };
 
-    const handleClick = async (e) => {
-        e.preventDefault();
-        if (!inputs) {
-            notyf.error("Please fill the form!");
+    const TransformFileData = (file) => {
+        const reader = new FileReader();
+
+        if (file) {
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                setUserPhoto(reader.result);
+            };
+        } else {
+            setUserPhoto("");
+        }
+    };
+
+    const onSubmit = async (data) => {
+        if (!userPhoto) {
+            setFileError(true);
             return;
         }
+        const { file, ...inputs } = data;
+
         setLoading(true);
         try {
-            await publicRequest.post("/auth/signup", inputs);
+            await publicRequest.post("/auth/signup", {
+                ...inputs,
+                image: userPhoto,
+            });
             notyf.success("Registration Successfull!");
             navigate("/login");
         } catch (error) {
-            notyf.error("Something went wrong!");
+            notyf.error("Something went wrong. Try Again");
         }
         setLoading(false);
     };
@@ -50,7 +75,10 @@ const Register = () => {
                             Create an account if you don't have!
                         </p>
 
-                        <form className="form-content">
+                        <form
+                            onSubmit={handleSubmit(onSubmit)}
+                            className="form-content"
+                        >
                             <div className="input_boxes">
                                 <div>
                                     <label>
@@ -59,13 +87,36 @@ const Register = () => {
                                     <div className="input-wrapper">
                                         <ion-icon name="person-circle-outline"></ion-icon>
                                         <input
-                                            onChange={handleChange}
                                             type="text"
                                             name="name"
                                             placeholder="Enter your full name"
-                                            required
                                             className="input-field"
+                                            {...register("name", {
+                                                required: true,
+                                                maxLength: 30,
+                                                minLength: 2,
+                                                pattern: /^[a-zA-Z ]*$/i,
+                                            })}
                                         />
+                                    </div>
+                                    <div className="valid-err">
+                                        {errors?.name?.type === "required" && (
+                                            <p>This field is required</p>
+                                        )}
+                                        {errors?.name?.type === "maxLength" && (
+                                            <p>
+                                                Name cannot exceed 30 characters
+                                            </p>
+                                        )}
+                                        {errors?.name?.type === "minLength" && (
+                                            <p>
+                                                Name should be at least 2
+                                                characters long
+                                            </p>
+                                        )}
+                                        {errors?.name?.type === "pattern" && (
+                                            <p>Alphabetical characters only</p>
+                                        )}
                                     </div>
                                 </div>
 
@@ -76,14 +127,19 @@ const Register = () => {
                                     <div className="input-wrapper">
                                         <ion-icon name="mail-outline"></ion-icon>
                                         <input
-                                            onChange={handleChange}
                                             type="email"
                                             name="email"
-                                            aria-label="email"
                                             placeholder="Enter your mail address"
-                                            required
                                             className="input-field"
+                                            {...register("email", {
+                                                required: true,
+                                            })}
                                         />
+                                    </div>
+                                    <div className="valid-err">
+                                        {errors?.email?.type === "required" && (
+                                            <p>This field is required</p>
+                                        )}
                                     </div>
                                 </div>
 
@@ -94,13 +150,39 @@ const Register = () => {
                                     <div className="input-wrapper">
                                         <ion-icon name="checkmark-circle-outline"></ion-icon>
                                         <input
-                                            onChange={handleChange}
                                             type="number"
                                             name="regNo"
                                             placeholder="Enter your reg no."
-                                            required
                                             className="input-field"
+                                            {...register("regNo", {
+                                                required: true,
+                                                maxLength: 10,
+                                                minLength: 10,
+                                                pattern: /^[0-9]*$/i,
+                                            })}
                                         />
+                                    </div>
+                                    <div className="valid-err">
+                                        {errors?.regNo?.type === "required" && (
+                                            <p>This field is required</p>
+                                        )}
+                                        {errors?.regNo?.type ===
+                                            "maxLength" && (
+                                            <p>
+                                                Reg No cannot exceed 10
+                                                characters
+                                            </p>
+                                        )}
+                                        {errors?.regNo?.type ===
+                                            "minLength" && (
+                                            <p>
+                                                Reg No should be at least 10
+                                                characters long
+                                            </p>
+                                        )}
+                                        {errors?.regNo?.type === "pattern" && (
+                                            <p>Numeric characters only</p>
+                                        )}
                                     </div>
                                 </div>
 
@@ -111,56 +193,40 @@ const Register = () => {
                                     <div className="input-wrapper">
                                         <ion-icon name="phone-portrait-outline"></ion-icon>
                                         <input
-                                            onChange={handleChange}
                                             type="number"
                                             name="mobile"
-                                            aria-label="email"
                                             placeholder="Enter your mobile no."
-                                            required
                                             className="input-field"
+                                            {...register("mobile", {
+                                                required: true,
+                                                maxLength: 10,
+                                                minLength: 10,
+                                                pattern: /^[0-9]*$/i,
+                                            })}
                                         />
                                     </div>
-                                </div>
-
-                                <div>
-                                    <label>
-                                        Gender <span>*</span>
-                                    </label>
-                                    <div className="input-wrapper select-box">
-                                        <ion-icon name="person-outline"></ion-icon>
-                                        <select
-                                            onChange={handleChange}
-                                            className="input-field"
-                                            name="gender"
-                                            id="gender"
-                                        >
-                                            <option>Select</option>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">
-                                                Female
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label>
-                                        Course <span>*</span>
-                                    </label>
-                                    <div className="input-wrapper select-box">
-                                        <ion-icon name="book-outline"></ion-icon>
-                                        <select
-                                            onChange={handleChange}
-                                            className="input-field"
-                                            name="course"
-                                            id="course"
-                                        >
-                                            <option>Select</option>
-                                            <option value="B-Tech">
-                                                B-Tech
-                                            </option>
-                                            <option value="IMBA">IMBA</option>
-                                        </select>
+                                    <div className="valid-err">
+                                        {errors?.mobile?.type ===
+                                            "required" && (
+                                            <p>This field is required</p>
+                                        )}
+                                        {errors?.mobile?.type ===
+                                            "maxLength" && (
+                                            <p>
+                                                Mobile No cannot exceed 10
+                                                characters
+                                            </p>
+                                        )}
+                                        {errors?.mobile?.type ===
+                                            "minLength" && (
+                                            <p>
+                                                Mobile No should be at least 10
+                                                characters long
+                                            </p>
+                                        )}
+                                        {errors?.mobile?.type === "pattern" && (
+                                            <p>Numeric characters only</p>
+                                        )}
                                     </div>
                                 </div>
 
@@ -171,15 +237,18 @@ const Register = () => {
                                     <div className="input-wrapper">
                                         <ion-icon name="lock-open-outline"></ion-icon>
                                         <input
-                                            onChange={handleChange}
                                             type={
                                                 !visible ? "password" : "text"
                                             }
                                             name="password"
                                             placeholder="Enter your password"
-                                            required
                                             className="input-field"
+                                            {...register("password", {
+                                                required: true,
+                                                minLength: 8,
+                                            })}
                                         />
+
                                         <div
                                             className="view-password"
                                             onClick={() => setVisible(!visible)}
@@ -192,6 +261,20 @@ const Register = () => {
                                                 }
                                             ></ion-icon>
                                         </div>
+                                    </div>
+                                    <div className="valid-err">
+                                        {errors?.password?.type ===
+                                            "required" && (
+                                            <p>This field is required</p>
+                                        )}
+
+                                        {errors?.password?.type ===
+                                            "minLength" && (
+                                            <p>
+                                                Password should be at least 8
+                                                characters long
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
 
@@ -202,15 +285,25 @@ const Register = () => {
                                     <div className="input-wrapper">
                                         <ion-icon name="lock-open-outline"></ion-icon>
                                         <input
-                                            onChange={handleChange}
                                             type={
                                                 !visible ? "password" : "text"
                                             }
                                             name="passwordConfirm"
                                             placeholder="Confirm password"
-                                            required
                                             className="input-field"
+                                            {...register("passwordConfirm", {
+                                                required: true,
+                                                validate: (val) => {
+                                                    if (
+                                                        watch("password") !==
+                                                        val
+                                                    ) {
+                                                        return false;
+                                                    }
+                                                },
+                                            })}
                                         />
+
                                         <div
                                             className="view-password"
                                             onClick={() => setVisible(!visible)}
@@ -224,6 +317,16 @@ const Register = () => {
                                             ></ion-icon>
                                         </div>
                                     </div>
+                                    <div className="valid-err">
+                                        {errors?.passwordConfirm?.type ===
+                                            "required" && (
+                                            <p>This field is required</p>
+                                        )}
+                                        {errors?.passwordConfirm?.type ===
+                                            "validate" && (
+                                            <p>Password Don't Match</p>
+                                        )}
+                                    </div>
                                 </div>
 
                                 <div>
@@ -233,19 +336,26 @@ const Register = () => {
                                     <div className="input-wrapper select-box">
                                         <ion-icon name="person-outline"></ion-icon>
                                         <select
-                                            onChange={handleChange}
                                             className="input-field"
                                             name="role"
                                             id="role"
+                                            {...register("role", {
+                                                required: true,
+                                            })}
                                         >
-                                            <option>Select</option>
-                                            <option value="student">
+                                            <option value="">Select</option>
+                                            <option value="Student">
                                                 Student
                                             </option>
-                                            <option value="faculty">
+                                            <option value="Faculty">
                                                 Faculty
                                             </option>
                                         </select>
+                                    </div>
+                                    <div className="valid-err">
+                                        {errors?.role?.type === "required" && (
+                                            <p>This field is required</p>
+                                        )}
                                     </div>
                                 </div>
 
@@ -258,21 +368,35 @@ const Register = () => {
                                         className="input-wrapper"
                                     >
                                         <input
+                                            onChange={handleUserImage}
                                             type="file"
-                                            name="file"
-                                            required
+                                            name="userImage"
                                         />
+                                    </div>
+                                    <div className="valid-err">
+                                        {fileError && (
+                                            <p>This field is required</p>
+                                        )}
                                     </div>
                                 </div>
                             </div>
 
-                            <button
-                                onClick={handleClick}
-                                type="submit"
-                                className="btn-primary login_btn"
-                            >
-                                {!loading ? "Register" : "Submiting..."}
-                            </button>
+                            {!loading ? (
+                                <button
+                                    type="submit"
+                                    className="btn-primary login_btn"
+                                >
+                                    Register
+                                </button>
+                            ) : (
+                                <button
+                                    type="submit"
+                                    disabled={true}
+                                    className="btn-primary login_btn"
+                                >
+                                    Registering...
+                                </button>
+                            )}
                         </form>
 
                         <div className="cta">

@@ -28,7 +28,6 @@ export const updatePassword = async (dispatch, passwordData) => {
         dispatch(loginSuccess(res.data));
         return res.data;
     } catch (err) {
-        dispatch(loginFailure(err.response.data));
         return err.response.data;
     }
 };

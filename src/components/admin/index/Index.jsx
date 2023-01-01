@@ -23,12 +23,12 @@ const Index = ({ clickedComponent, setUserData }) => {
                 setTotalNotices(res1.data.totalResults);
                 setNotices(res1.data.data);
                 const res2 = await userRequest.get(
-                    `/user?role=student&page=1&limit=5`
+                    `/user?role=Student&page=1&limit=5`
                 );
                 setTotalStudents(res2.data.totalResults);
                 setStudents(res2.data.data);
                 const res3 = await userRequest.get(
-                    `/user?role=faculty&page=1&limit=5`
+                    `/user?role=Faculty&page=1&limit=5`
                 );
                 setTotalFaculties(res3.data.totalResults);
                 setFaculties(res3.data.data);

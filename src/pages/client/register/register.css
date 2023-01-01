@@ -21,6 +21,13 @@
     gap: 2rem;
 }
 
+.register .form-content .input_boxes .valid-err {
+    text-align: left;
+    margin-top: 3px;
+    font-size: 13px;
+    color: #ff4646;
+}
+
 .register .form-text {
     margin-block-end: 30px;
 }

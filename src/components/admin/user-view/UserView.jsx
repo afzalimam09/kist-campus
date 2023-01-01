@@ -44,7 +44,7 @@ const UserView = ({ userData }) => {
             <div className="head-title">
                 <div className="left">
                     <h1>
-                        {userData.role === "student"
+                        {userData.role === "Student"
                             ? "Student Information"
                             : "Faculty Information"}
                     </h1>
@@ -68,10 +68,16 @@ const UserView = ({ userData }) => {
                             Mobile No: <span>{userData.mobile}</span>
                         </p>
                         <p>
-                            Gender: <span>{userData.gender}</span>
+                            Gender:{" "}
+                            <span>
+                                {!userData.gender ? "NA" : userData.gender}
+                            </span>
                         </p>
                         <p>
-                            Course: <span>{userData.course}</span>
+                            Course:{" "}
+                            <span>
+                                {!userData.course ? "NA" : userData.course}
+                            </span>
                         </p>
                         <p>
                             Branch:
@@ -82,7 +88,7 @@ const UserView = ({ userData }) => {
                         <p>
                             Semester:
                             <span>
-                                {!userData.semseter ? "NA" : userData.semseter}
+                                {!userData.semester ? "NA" : userData.semester}
                             </span>
                         </p>
                     </div>
@@ -99,9 +105,9 @@ const UserView = ({ userData }) => {
                             defaultValue={userData.status}
                             onChange={(e) => setStatus(e.target.value)}
                         >
-                            <option value="pending">Pending</option>
-                            <option value="active">Active</option>
-                            <option value="blocked">Blocked</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Active">Active</option>
+                            <option value="Blocked">Blocked</option>
                         </select>
                     </div>
                     <div className="input-box">

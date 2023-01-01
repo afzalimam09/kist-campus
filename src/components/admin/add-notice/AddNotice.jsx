@@ -1,18 +1,12 @@
 import { useState } from "react";
-import {
-    getStorage,
-    ref,
-    uploadBytesResumable,
-    getDownloadURL,
-} from "firebase/storage";
-import app from "../../../firebase.js";
 import { userRequest } from "../../../requestMethods";
 import { notyf } from "../../../alert.js";
 
-const AddNotice = ({ clickedComponent }) => {
+const AddNotice = () => {
     const [inputs, setInputs] = useState({});
-    const [file, setFile] = useState(null);
-    const [progress, setProgress] = useState(0);
+    const [refId, setRefId] = useState("");
+    const [file, setFile] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         setInputs((prev) => {
@@ -20,65 +14,51 @@ const AddNotice = ({ clickedComponent }) => {
         });
     };
 
-    const handleClick = (e) => {
+    const handleNoticeImageUpload = (e) => {
+        const file = e.target.files[0];
+        TransformFileData(file);
+    };
+
+    const TransformFileData = (file) => {
+        const reader = new FileReader();
+
+        if (file) {
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                setFile(reader.result);
+            };
+        } else {
+            setFile("");
+        }
+    };
+
+    const handleClick = async (e) => {
         e.preventDefault();
-        if (!inputs.title) {
-            notyf.error("Please enter title!");
+        if (JSON.stringify(inputs) === "{}") {
+            notyf.error("Please enter inputs!");
+            return;
+        }
+        if (!refId) {
+            notyf.error("Please enter reference Id!");
             return;
         }
         if (!file) {
             notyf.error("Please upload image!");
             return;
         }
-        const fileName = new Date().getTime() + file.name;
-        const storage = getStorage(app);
-        const storageRef = ref(storage, fileName);
-        const uploadTask = uploadBytesResumable(storageRef, file);
-
-        uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-                // Observe state change events such as progress, pause, and resume
-                // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                const progress =
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                console.log("Upload is " + progress + "% done");
-                setProgress(progress);
-                switch (snapshot.state) {
-                    case "paused":
-                        console.log("Upload is paused");
-                        break;
-                    case "running":
-                        console.log("Upload is running");
-                        break;
-                    default:
-                }
-            },
-            (error) => {
-                // Handle unsuccessful uploads
-            },
-            () => {
-                // Handle successful uploads on complete
-                // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-                getDownloadURL(uploadTask.snapshot.ref).then(
-                    async (downloadURL) => {
-                        const notice = {
-                            ...inputs,
-                            imageUrl: downloadURL,
-                        };
-                        try {
-                            await userRequest.post("/notice", notice);
-                            notyf.success("Notice added successfylly!");
-                        } catch (error) {
-                            notyf.error(
-                                "Something went wrong please try again!"
-                            );
-                            console.log(error);
-                        }
-                    }
-                );
-            }
-        );
+        setLoading(true);
+        try {
+            await userRequest.post("/notice", {
+                image: file,
+                refId,
+                ...inputs,
+            });
+            notyf.success("Notice uploaded successfully!");
+            setFile("");
+        } catch (error) {
+            notyf.success("Something went wrong try again!");
+        }
+        setLoading(false);
     };
 
     return (
@@ -95,10 +75,7 @@ const AddNotice = ({ clickedComponent }) => {
                         Notice Image <span>*</span>
                     </label>
                     <div className="image-input">
-                        <img
-                            src={file ? URL.createObjectURL(file) : ""}
-                            alt=""
-                        />
+                        <img src={file ? file : ""} alt="" />
                         <label className="upload-box" htmlFor="notice-image">
                             <ion-icon name="camera-reverse-outline"></ion-icon>
                         </label>
@@ -109,7 +86,7 @@ const AddNotice = ({ clickedComponent }) => {
                             type="file"
                             placeholder="Upload Image"
                             required
-                            onChange={(e) => setFile(e.target.files[0])}
+                            onChange={handleNoticeImageUpload}
                         />
                     </div>
                 </div>
@@ -126,6 +103,18 @@ const AddNotice = ({ clickedComponent }) => {
                         onChange={handleChange}
                     />
                 </div>
+                <div className="title-box">
+                    <label>
+                        Reference Id <span>*</span>
+                    </label>
+                    <input
+                        type="text"
+                        name="refId"
+                        placeholder="Enter notice Reference Id"
+                        required
+                        onChange={(e) => setRefId(e.target.value)}
+                    />
+                </div>
 
                 <div className="desc-box">
                     <label>Notice Description</label>
@@ -136,60 +125,18 @@ const AddNotice = ({ clickedComponent }) => {
                     ></textarea>
                 </div>
 
-                {/* <div>
-                    <label>
-                        Notice Title <span>*</span>
-                    </label>
-                    <div className="input-wrapper">
-                        <input
-                            type="text"
-                            name="title"
-                            placeholder="Enter notice title"
-                            required
-                            className="input-field"
-                            onChange={handleChange}
-                        />
-                    </div>
-                </div> */}
-
-                {/* <div>
-                    <label>Notice Description</label>
-                    <div className="input-wrapper textarea">
-                        <textarea
-                            onChange={handleChange}
-                            name="description"
-                            placeholder="Enter notice description"
-                        ></textarea>
-                    </div>
-                </div> */}
-
-                {/* <div>
-                    <label>
-                        Upload Image <span>*</span>
-                    </label>
-                    <div className="input-wrapper">
-                        <input
-                            type="file"
-                            name="imageUrl"
-                            placeholder="Upload Image"
-                            required
-                            className="uploadImage"
-                            onChange={(e) => setFile(e.target.files[0])}
-                        />
-                    </div>
-                    {progress > 0 && (
-                        <p style={{ marginTop: "3px" }}>
-                            Uploading {progress}% done
-                        </p>
-                    )}
-                </div> */}
-
-                <button
-                    onClick={handleClick}
-                    className="btn-primary submit_btn"
-                >
-                    Submit
-                </button>
+                {!loading ? (
+                    <button
+                        onClick={handleClick}
+                        className="btn-primary submit_btn"
+                    >
+                        Submit
+                    </button>
+                ) : (
+                    <button className="btn-primary submit_btn">
+                        Adding ...
+                    </button>
+                )}
             </div>
         </main>
     );
