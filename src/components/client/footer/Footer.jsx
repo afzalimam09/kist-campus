@@ -159,9 +159,9 @@ const Footer = () => {
 
                 <div className="footer-bottom">
                     <p className="copyright">
-                        Copyright 2022 KIST Campus. All Rights Reserved by{" "}
+                        Copyright 2022 KIST College. All Rights Reserved by{" "}
                         <Link to="/" className="copyright-link">
-                            KIST Campus
+                            KIST College
                         </Link>
                     </p>
                 </div>
