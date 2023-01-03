@@ -24,14 +24,14 @@ const Header = () => {
             <div className="container">
                 <h1>
                     <Link to="/" className="logo">
-                        KIST Campus
+                        KIST College
                     </Link>
                 </h1>
 
                 <nav className={`navbar ${active ? "active" : ""}`}>
                     <div className="navbar-top">
                         <Link to="/" className="logo">
-                            KIST Campus
+                            KIST College
                         </Link>
                         <button
                             onClick={toggleElm}

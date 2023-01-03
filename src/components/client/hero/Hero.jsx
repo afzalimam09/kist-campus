@@ -16,7 +16,7 @@ const Hero = () => {
                     <p className="section-subtitle">We Nurture the Talent!</p>
 
                     <h2 className="h1 hero-title">
-                        KIST Campus Online Notice Board
+                        KIST College Online Notice Board
                     </h2>
 
                     <p className="hero-text">

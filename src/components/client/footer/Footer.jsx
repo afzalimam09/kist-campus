@@ -8,7 +8,7 @@ const Footer = () => {
                 <div className="footer-top">
                     <div className="footer-brand">
                         <Link to="/" className="logo">
-                            KIST Campus
+                            KIST College
                         </Link>
 
                         <p className="section-text">
@@ -148,10 +148,10 @@ const Footer = () => {
                             ></ion-icon>
 
                             <a
-                                href="mailto:contact@kistcampus.com"
+                                href="mailto:contact@kistcollege.com"
                                 className="footer-link"
                             >
-                                contact@kistcampus.com
+                                contact@kistcollege.com
                             </a>
                         </li>
                     </ul>
