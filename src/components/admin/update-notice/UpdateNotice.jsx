@@ -41,8 +41,9 @@ const UpdateNotice = ({ noticeData }) => {
             return;
         }
         setLoading(true);
+        let res;
         try {
-            const res = await userRequest.patch(`/notice/${noticeData._id}`, {
+            res = await userRequest.patch(`/notice/${noticeData._id}`, {
                 image: file,
                 refId: refId ? refId : noticeData.refId,
                 ...inputs,
@@ -56,6 +57,12 @@ const UpdateNotice = ({ noticeData }) => {
             notyf.success("Something went wrong. try again!");
         }
         setLoading(false);
+        try {
+            await userRequest.post("/email/send-notice-email", res.data.data);
+            console.log("email sent!");
+        } catch (error) {
+            console.log("Email Error: ", error);
+        }
     };
 
     return (

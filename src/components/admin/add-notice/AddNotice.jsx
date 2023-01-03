@@ -47,18 +47,30 @@ const AddNotice = () => {
             return;
         }
         setLoading(true);
+        let savedNotice;
         try {
-            await userRequest.post("/notice", {
+            savedNotice = await userRequest.post("/notice", {
                 image: file,
                 refId,
                 ...inputs,
             });
+
             notyf.success("Notice uploaded successfully!");
             setFile("");
         } catch (error) {
             notyf.success("Something went wrong try again!");
         }
         setLoading(false);
+        // this try catch is for email sending
+        try {
+            await userRequest.post(
+                "/email/send-notice-email",
+                savedNotice.data.data
+            );
+            console.log("email sent!");
+        } catch (error) {
+            console.log("Email Error: ", error);
+        }
     };
 
     return (

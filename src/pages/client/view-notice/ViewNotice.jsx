@@ -78,6 +78,10 @@ const ViewNotice = () => {
                                     ? "NA"
                                     : notice.description}
                             </p>
+                            <p style={{ marginBottom: "12px" }}>
+                                <strong>Ref Id: </strong>
+                                {notice.refId}
+                            </p>
                             <button
                                 onClick={saveToBookmark}
                                 className="card-btn btn-primary"
