@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { publicRequest } from "../../../requestMethods";
 import { useLocation } from "react-router-dom";
 import { notyf } from "../../../alert";
+import FileSaver from "file-saver";
 
 const ViewNotice = () => {
     const [notice, setNotice] = useState({});
@@ -16,6 +17,10 @@ const ViewNotice = () => {
     const bookmark = useSelector((state) => state.bookmark);
     const params = useLocation();
     const url = params.pathname;
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     useEffect(() => {
         const getNotice = async () => {
             try {
@@ -40,6 +45,10 @@ const ViewNotice = () => {
         }
         dispatch(add(notice));
         notyf.success("Added to bookmark!");
+    };
+
+    const downloadNotice = (title, photo) => {
+        FileSaver.saveAs(photo, `KIST ONB ${title}.jpg`);
     };
 
     return (
@@ -82,13 +91,27 @@ const ViewNotice = () => {
                                 <strong>Ref Id: </strong>
                                 {notice.refId}
                             </p>
-                            <button
-                                onClick={saveToBookmark}
-                                className="card-btn btn-primary"
-                            >
-                                <ion-icon name="save-outline"></ion-icon>
-                                <span>Save as Bookmark</span>
-                            </button>
+                            <div className="card-action">
+                                <button
+                                    onClick={saveToBookmark}
+                                    className="card-btn btn-primary"
+                                >
+                                    <ion-icon name="save-outline"></ion-icon>
+                                    <span>Save as Bookmark</span>
+                                </button>
+                                <button
+                                    onClick={() =>
+                                        downloadNotice(
+                                            notice.title,
+                                            notice.imageUrl
+                                        )
+                                    }
+                                    className="card-btn btn-primary"
+                                >
+                                    <ion-icon name="arrow-down-outline"></ion-icon>
+                                    <span>Download</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

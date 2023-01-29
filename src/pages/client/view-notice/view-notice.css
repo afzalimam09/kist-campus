@@ -45,6 +45,11 @@
     margin-bottom: 12px;
 }
 
+.single-notice .notice-card .card-action {
+    display: flex;
+    gap: 15px;
+}
+
 .single-notice .notice-card .card-btn {
     display: flex;
     flex-wrap: wrap;

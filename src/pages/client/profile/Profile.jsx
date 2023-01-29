@@ -15,6 +15,9 @@ const Profile = () => {
     const user = useSelector((state) => state.user.currentUser);
     const me = user.data;
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+    useEffect(() => {
         const getMe = async () => {
             try {
                 const res = await userRequest.get("/user/me");

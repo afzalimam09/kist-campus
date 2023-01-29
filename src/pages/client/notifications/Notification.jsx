@@ -11,6 +11,11 @@ import { notyf } from "../../../alert";
 const Notification = () => {
     const user = useSelector((state) => state.user.currentUser);
     const [notifications, setNotifications] = useState([]);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     useEffect(() => {
         const getData = async () => {
             try {

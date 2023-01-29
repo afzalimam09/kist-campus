@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../../../components/client/footer/Footer";
 import Header from "../../../components/client/header/Header";
 import BackToTop from "../../../components/shared/backtotop/BackToTop";
@@ -14,6 +14,10 @@ const Register = () => {
     const [loading, setLoading] = useState(false);
     const [fileError, setFileError] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const {
         register,

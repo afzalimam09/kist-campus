@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "../../../components/client/footer/Footer";
 import Header from "../../../components/client/header/Header";
 import BackToTop from "../../../components/shared/backtotop/BackToTop";
@@ -15,6 +15,10 @@ const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { isFetching } = useSelector((state) => state.user);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const handleClick = async (e) => {
         e.preventDefault();

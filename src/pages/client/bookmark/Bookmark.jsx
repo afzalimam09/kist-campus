@@ -6,6 +6,7 @@ import "./bookmark.css";
 import dateFormat from "dateformat";
 import { remove } from "../../../redux/bookmarkRedux";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const Bookmark = () => {
     const dispatch = useDispatch();
@@ -13,6 +14,9 @@ const Bookmark = () => {
     const removeBookmark = (id) => {
         dispatch(remove(id));
     };
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     return (
         <>
             <Header />
