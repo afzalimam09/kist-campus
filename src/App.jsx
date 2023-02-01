@@ -9,6 +9,7 @@ import Profile from "./pages/client/profile/Profile";
 import Bookmark from "./pages/client/bookmark/Bookmark";
 import Notification from "./pages/client/notifications/Notification";
 import ViewNotice from "./pages/client/view-notice/ViewNotice";
+import PageNotFound from "./pages/client/404/PageNotFound.jsx";
 
 function App() {
     const user = useSelector((state) => state.user.currentUser);
@@ -48,6 +49,7 @@ function App() {
                         element={!admin ? <Navigate to="/" /> : <Dashboard />}
                     />
                 </Route>
+                <Route path="*" element={<PageNotFound />} />
             </Routes>
         </BrowserRouter>
     );
