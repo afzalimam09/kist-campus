@@ -13,6 +13,7 @@ import FileSaver from "file-saver";
 
 const ViewNotice = () => {
     const [notice, setNotice] = useState({});
+    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const bookmark = useSelector((state) => state.bookmark);
     const params = useLocation();
@@ -23,12 +24,15 @@ const ViewNotice = () => {
     }, []);
     useEffect(() => {
         const getNotice = async () => {
+            setLoading(true);
             try {
                 const res = await publicRequest.get(url);
                 setNotice(res.data.data);
             } catch (error) {
                 console.log(error);
                 notyf.error("Something went wrong! Please refresh!");
+            } finally {
+                setLoading(false);
             }
         };
         getNotice();
@@ -59,61 +63,65 @@ const ViewNotice = () => {
                 style={{ backgroundImage: "url('/images/newsletter-bg.jpg')" }}
             >
                 <div className="container">
-                    <div className="notice-card">
-                        <figure className="card-banner">
-                            <img
-                                src={notice.imageUrl}
-                                width="370"
-                                height="270"
-                                loading="lazy"
-                                alt={notice.title}
-                                className="img-cover"
-                            />
-                        </figure>
+                    {!loading ? (
+                        <div className="notice-card">
+                            <figure className="card-banner">
+                                <img
+                                    src={notice.imageUrl}
+                                    width="370"
+                                    height="270"
+                                    loading="lazy"
+                                    alt={notice.title}
+                                    className="img-cover"
+                                />
+                            </figure>
 
-                        <div className="card-content">
-                            <div className="date-badge">
-                                <ion-icon name="calendar-outline"></ion-icon>
-                                <span className="date">
-                                    {dateFormat(
-                                        notice.createdAt,
-                                        "mmm d, yyyy"
-                                    )}
-                                </span>
-                            </div>
-                            <h3 className="h3">{notice.title}</h3>
-                            <p className="desc">
-                                {!notice.description
-                                    ? "NA"
-                                    : notice.description}
-                            </p>
-                            <p style={{ marginBottom: "12px" }}>
-                                <strong>Ref Id: </strong>
-                                {notice.refId}
-                            </p>
-                            <div className="card-action">
-                                <button
-                                    onClick={saveToBookmark}
-                                    className="card-btn btn-primary"
-                                >
-                                    <ion-icon name="save-outline"></ion-icon>
-                                    <span>Save as Bookmark</span>
-                                </button>
-                                <button
-                                    onClick={() =>
-                                        downloadNotice(
-                                            notice.title,
-                                            notice.imageUrl
-                                        )
-                                    }
-                                    className="card-btn btn-primary"
-                                >
-                                    <ion-icon name="arrow-down-outline"></ion-icon>
-                                    <span>Download</span>
-                                </button>
+                            <div className="card-content">
+                                <div className="date-badge">
+                                    <ion-icon name="calendar-outline"></ion-icon>
+                                    <span className="date">
+                                        {dateFormat(
+                                            notice.createdAt,
+                                            "mmm d, yyyy"
+                                        )}
+                                    </span>
+                                </div>
+                                <h3 className="h3">{notice.title}</h3>
+                                <p className="desc">
+                                    {!notice.description
+                                        ? "NA"
+                                        : notice.description}
+                                </p>
+                                <p style={{ marginBottom: "12px" }}>
+                                    <strong>Ref Id: </strong>
+                                    {notice.refId}
+                                </p>
+                                <div className="card-action">
+                                    <button
+                                        onClick={saveToBookmark}
+                                        className="card-btn btn-primary"
+                                    >
+                                        <ion-icon name="save-outline"></ion-icon>
+                                        <span>Save as Bookmark</span>
+                                    </button>
+                                    <button
+                                        onClick={() =>
+                                            downloadNotice(
+                                                notice.title,
+                                                notice.imageUrl
+                                            )
+                                        }
+                                        className="card-btn btn-primary"
+                                    >
+                                        <ion-icon name="arrow-down-outline"></ion-icon>
+                                        <span>Download</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ) : (
+                        <p>Loading</p>
+                    )}
                 </div>
             </section>
             <Footer />
