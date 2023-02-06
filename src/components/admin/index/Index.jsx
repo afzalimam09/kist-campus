@@ -6,32 +6,28 @@ import { userRequest } from "../../../requestMethods";
 
 const Index = ({ clickedComponent, setUserData }) => {
     const navigate = useNavigate();
-    const [totalNotices, setTotalNotices] = useState(0);
-    const [totalStudents, setTotalStudents] = useState(0);
-    const [totalFaculties, setTotalFaculties] = useState(0);
 
-    const [notices, setNotices] = useState([]);
-    const [students, setStudents] = useState([]);
-    const [faculties, setFaculties] = useState([]);
+    const [output, setOutput] = useState({
+        notices: {},
+        students: {},
+        faculties: {},
+    });
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const getData = async () => {
             setLoading(true);
             try {
-                const res1 = await userRequest.get(`/notice?page=1&limit=5`);
-                setTotalNotices(res1.data.totalResults);
-                setNotices(res1.data.data);
-                const res2 = await userRequest.get(
-                    `/user?role=Student&page=1&limit=5`
-                );
-                setTotalStudents(res2.data.totalResults);
-                setStudents(res2.data.data);
-                const res3 = await userRequest.get(
-                    `/user?role=Faculty&page=1&limit=5`
-                );
-                setTotalFaculties(res3.data.totalResults);
-                setFaculties(res3.data.data);
+                const [res1, res2, res3] = await Promise.all([
+                    userRequest.get(`/notice?page=1&limit=5`),
+                    userRequest.get(`/user?role=Student&page=1&limit=5`),
+                    userRequest.get(`/user?role=Faculty&page=1&limit=5`),
+                ]);
+                setOutput({
+                    notices: res1.data,
+                    students: res2.data,
+                    faculties: res3.data,
+                });
             } catch (error) {
                 notyf.error("Something went wrong!");
                 console.log(error);
@@ -66,21 +62,21 @@ const Index = ({ clickedComponent, setUserData }) => {
                         <li>
                             <i className="bx bxs-calendar-check"></i>
                             <span className="text">
-                                <h3>{totalNotices}</h3>
+                                <h3>{output.notices.totalResults}</h3>
                                 <p>Total Notices</p>
                             </span>
                         </li>
                         <li>
                             <i className="bx bxs-group"></i>
                             <span className="text">
-                                <h3>{totalFaculties}</h3>
+                                <h3>{output.faculties.totalResults}</h3>
                                 <p>Total Faculties</p>
                             </span>
                         </li>
                         <li>
                             <i className="bx bxs-group"></i>
                             <span className="text">
-                                <h3>{totalStudents}</h3>
+                                <h3>{output.students.totalResults}</h3>
                                 <p>Total Students</p>
                             </span>
                         </li>
@@ -106,7 +102,7 @@ const Index = ({ clickedComponent, setUserData }) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {notices.map((notice) => (
+                                    {output.notices.data?.map((notice) => (
                                         <tr key={notice._id}>
                                             <td>
                                                 {dateFormat(
@@ -158,7 +154,7 @@ const Index = ({ clickedComponent, setUserData }) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {students.map((student) => (
+                                    {output.students.data?.map((student) => (
                                         <tr key={student._id}>
                                             <td>{student.regNo}</td>
                                             <td>
@@ -208,7 +204,7 @@ const Index = ({ clickedComponent, setUserData }) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {faculties.map((faculty) => (
+                                    {output.faculties.data?.map((faculty) => (
                                         <tr key={faculty._id}>
                                             <td>{faculty.regNo}</td>
                                             <td>
